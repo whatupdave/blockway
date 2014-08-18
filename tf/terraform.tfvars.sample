@@ -1,0 +1,9 @@
+aws_access_key=
+aws_secret_key=
+key_path=~/.ssh/terraform.pem
+key_name=terraform
+volume_id=vol-335fbb7b
+rpcuser=username
+rpcpassword=password
+dnsimple_token=
+dnsimple_email=

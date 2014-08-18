@@ -1,0 +1,19 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "mitchellh/boot2docker"
+
+  config.vm.provider "virtualbox" do |v|
+    # On VirtualBox, we don't have guest additions or a functional vboxsf
+    # in TinyCore Linux, so tell Vagrant that so it can be smarter.
+    v.check_guest_additions = false
+    v.functional_vboxsf     = false
+
+    vb.customize ['modifyvm', :id, '--cpus', '2']
+    vb.customize ['modifyvm', :id, '--ioapic', 'on']
+    vb.customize ['modifyvm', :id, '--memory', '2048']
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+  end
+
+  # b2d doesn't support NFS
+  config.nfs.functional = false
+end
