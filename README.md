@@ -20,3 +20,8 @@ Edit your terraform.tfvars appropriately.
 
     $ terraform plan
     $ terraform apply
+
+## DESTROY ALL HUMANS
+
+    $ terraform plan -destroy -out=destroy.tfplan
+    $ terraform apply destroy.tfplan
