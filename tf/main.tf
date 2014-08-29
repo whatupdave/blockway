@@ -83,7 +83,7 @@ resource "aws_instance" "bitcoind" {
       "sudo mkdir -p /vol/.bitcoin",
       "sudo openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -subj '/C=US/ST=CA/L=San Francisco/O=Dis/CN=${var.domain}' -keyout /vol/.bitcoin/server.pem -out /vol/.bitcoin/server.cert",
       "sudo chown --recursive bitcoin /vol",
-      "docker run --name=bitcoind-node -d -p 443:8332 -v /vol:/bitcoin kylemanna/bitcoind bitcoind -server -rpcuser=${var.rpcuser} -rpcpassword=${var.rpcpassword} -disablewallet -rpcssl -rpcallowip=* -printtoconsole"
+      "docker run --name=bitcoind-node -d -p 443:8332 -v /vol:/bitcoin kylemanna/bitcoind bitcoind -server -rpcuser=${var.rpcuser} -rpcpassword=${var.rpcpassword} -disablewallet -rpcssl -rpcallowip=* -txindex=1"
     ]
   }
 }
