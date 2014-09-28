@@ -57,7 +57,7 @@ resource "aws_security_group" "ssl" {
 }
 
 resource "aws_instance" "bitcoind" {
-  ami = "ami-04a2766c"
+  ami = "ami-4cb10524"
   availability_zone = "${var.availability_zone}"
   instance_type = "${var.instance_type}"
   security_groups = ["${aws_security_group.ssh.name}", "${aws_security_group.ssl.name}"]
@@ -83,7 +83,7 @@ resource "aws_instance" "bitcoind" {
       "sudo mkdir -p /vol/.bitcoin",
       "sudo openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -subj '/C=US/ST=CA/L=San Francisco/O=Dis/CN=${var.domain}' -keyout /vol/.bitcoin/server.pem -out /vol/.bitcoin/server.cert",
       "sudo chown --recursive bitcoin /vol",
-      "docker run --name=bitcoind-node -d -p 443:8332 -v /vol:/bitcoin kylemanna/bitcoind bitcoind -server -rpcuser=${var.rpcuser} -rpcpassword=${var.rpcpassword} -disablewallet -rpcssl -rpcallowip=* -txindex=1"
+      "docker run --name=bitcoind-node --restart always -d -p 443:8332 -v /vol:/bitcoin kylemanna/bitcoind bitcoind -server -rpcuser=${var.rpcuser} -rpcpassword=${var.rpcpassword} -disablewallet -rpcssl -rpcallowip=* -txindex=1"
     ]
   }
 }
@@ -100,6 +100,7 @@ resource "dnsimple_record" "blockway" {
     ttl = 60
 }
 
+# curl --insecure -X POST -d '{"jsonrpc": "1.0", "id":"curltest", "method": "getinfo", "params": [] }'
 output "endpoint" {
-  value = "curl --insecure -X POST -d '{\"jsonrpc\": \"1.0\", \"id\":\"curltest\", \"method\": \"getinfo\", \"params\": [] }' https://${var.rpcuser}:${var.rpcpassword}@blockway.${var.domain}"
+  value = "https://${var.rpcuser}:${var.rpcpassword}@blockway.${var.domain}"
 }
