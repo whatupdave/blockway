@@ -1,0 +1,10 @@
+#cloud-config
+coreos:
+  units:
+    - name: media-ephemeral.mount
+      command: start
+      content: |
+        [Mount]
+        What=/dev/xvdb
+        Where=/vol
+        Type=ext3
